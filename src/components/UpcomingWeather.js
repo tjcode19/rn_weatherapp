@@ -1,5 +1,12 @@
 import { StatusBar } from "expo-status-bar";
-import { View, Text, SafeAreaView, FlatList, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  FlatList,
+  StyleSheet,
+  ImageBackground,
+} from "react-native";
 import { Feather } from "@expo/vector-icons";
 
 const DATA = [
@@ -51,14 +58,20 @@ export default function UpcomingWeather() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        <Text>Upcoming Weather</Text>
-        <FlatList
-          data={DATA}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.dt_txt}
-        ></FlatList>
-      </View>
+      <ImageBackground
+        source={require("../../assets/cloud.jpg")}
+        style={styles.image}
+      >
+        <View>
+          <Text>Upcoming Weather</Text>
+
+          <FlatList
+            data={DATA}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.dt_txt}
+          ></FlatList>
+        </View>
+      </ImageBackground>
     </SafeAreaView>
   );
 }
@@ -67,7 +80,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: StatusBar.currentHeight || 0,
-    backgroundColor: "red",
+    backgroundColor: "royalblue",
   },
   item: {
     padding: 20,
@@ -86,5 +99,8 @@ const styles = StyleSheet.create({
   date: {
     color: "white",
     fontSize: 15,
+  },
+  image: {
+    flex: 1,
   },
 });
