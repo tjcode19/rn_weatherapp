@@ -1,5 +1,5 @@
 import { StyleSheet, View } from "react-native";
-import UpcomingWeather from "./src/components/UpcomingWeather";
+import UpcomingWeather from "./src/screens/UpcomingWeather";
 
 
 
