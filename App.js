@@ -6,40 +6,16 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import CurrentWeather from "./src/screens/CurrentWeather";
 import { Feather } from "@expo/vector-icons";
-
-import * as Location from "expo-location";
-import { TEST_KEY } from "@env";
+import { useGetWeather } from "./src/hooks/useGetWeather";
 
 const Tab = createBottomTabNavigator();
 
 //api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}
 
 export default function App() {
-  const [loading, setLoading] = useState(true);
-  const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
+  const [loading, errorMsg, weatherData] = useGetWeather();
 
-  console.log(TEST_KEY);
-
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      console.log(status, "our status");
-      if (status !== "granted") {
-        setErrorMsg("Permission denied");
-        return;
-      }
-
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-    })();
-  }, []);
-
-  if (location) {
-    console.log(location);
-  } else {
-    console.log("No location");
-  }
+  // console.log(loading, errorMsg, weatherData);
 
   if (loading) {
     return (
@@ -69,7 +45,6 @@ export default function App() {
       >
         <Tab.Screen
           name={"Current"}
-          component={CurrentWeather}
           options={{
             tabBarIcon: ({ focused }) => (
               <Feather
@@ -79,7 +54,9 @@ export default function App() {
               />
             ),
           }}
-        />
+        >
+          {() => <CurrentWeather weatherData={weatherData.list[0]} />}
+        </Tab.Screen>
         <Tab.Screen
           name={"Upcoming"}
           component={UpcomingWeather}
