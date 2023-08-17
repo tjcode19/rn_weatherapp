@@ -15,76 +15,78 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   const [loading, errorMsg, weatherData] = useGetWeather();
 
-  // console.log(loading, errorMsg, weatherData);
+  console.log(loading, errorMsg, weatherData);
 
-  if (loading) {
+  if (weatherData && weatherData.list) {
     return (
-      <View style={styles.container}>
-        <ActivityIndicator size={"large"} color={"blue"} />
-      </View>
-    );
-  }
-  return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={{
-          tabBarActiveTintColor: "tomato",
-          tabBarInactiveTintColor: "grey",
-          tabBarStyle: {
-            backgroundColor: "lightblue",
-          },
-          headerStyle: {
-            backgroundColor: "lightblue",
-          },
-          headerTitleStyle: {
-            fontSize: 25,
-            fontWeight: "bold",
-            color: "tomato",
-          },
-        }}
-      >
-        <Tab.Screen
-          name={"Current"}
-          options={{
-            tabBarIcon: ({ focused }) => (
-              <Feather
-                name="droplet"
-                size={25}
-                color={focused ? "tomato" : "black"}
-              />
-            ),
+      <NavigationContainer>
+        <Tab.Navigator
+          screenOptions={{
+            tabBarActiveTintColor: "tomato",
+            tabBarInactiveTintColor: "grey",
+            tabBarStyle: {
+              backgroundColor: "lightblue",
+            },
+            headerStyle: {
+              backgroundColor: "lightblue",
+            },
+            headerTitleStyle: {
+              fontSize: 25,
+              fontWeight: "bold",
+              color: "tomato",
+            },
           }}
         >
-          {() => <CurrentWeather weatherData={weatherData.list[0]} />}
-        </Tab.Screen>
-        <Tab.Screen
-          name={"Upcoming"}
-          component={UpcomingWeather}
-          options={{
-            tabBarIcon: ({ focused }) => (
-              <Feather
-                name="clock"
-                size={25}
-                color={focused ? "tomato" : "black"}
-              />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name={"City"}
-          component={City}
-          options={{
-            tabBarIcon: ({ focused }) => (
-              <Feather
-                name="home"
-                size={25}
-                color={focused ? "tomato" : "black"}
-              />
-            ),
-          }}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
+          <Tab.Screen
+            name={"Current"}
+            options={{
+              tabBarIcon: ({ focused }) => (
+                <Feather
+                  name="droplet"
+                  size={25}
+                  color={focused ? "tomato" : "black"}
+                />
+              ),
+            }}
+          >
+            {() => <CurrentWeather weatherData={weatherData.list[0]} />}
+          </Tab.Screen>
+          <Tab.Screen
+            name={"Upcoming"}
+            options={{
+              tabBarIcon: ({ focused }) => (
+                <Feather
+                  name="clock"
+                  size={25}
+                  color={focused ? "tomato" : "black"}
+                />
+              ),
+            }}
+          >
+            {() => <UpcomingWeather weatherD={weatherData.list} />}
+          </Tab.Screen>
+          <Tab.Screen
+            name={"City"}
+            component={City}
+            options={{
+              tabBarIcon: ({ focused }) => (
+                <Feather
+                  name="home"
+                  size={25}
+                  color={focused ? "tomato" : "black"}
+                />
+              ),
+            }}
+          />
+        </Tab.Navigator>
+      </NavigationContainer>
+    );
+  }
+
+  return (
+    <View style={styles.container}>
+      <ActivityIndicator size={"large"} color={"blue"} />
+    </View>
   );
 }
 

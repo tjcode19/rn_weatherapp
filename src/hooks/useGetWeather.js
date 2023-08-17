@@ -8,15 +8,18 @@ export const useGetWeather = () => {
   const [loading, setLoading] = useState(true);
   const [lat, setLat] = useState(null);
   const [lon, setLon] = useState(null);
+  const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [weatherData, setWeatherData] = useState([]);
 
   const fetchWeatherData = async () => {
+    console.log("Trigger");
     try {
       const res = await fetch(
-        `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}`
+        `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=metric`
       );
-      const data = await res.json();
+
+      data = await res.json();
       setWeatherData(data);
     } catch (error) {
       setErrorMsg("Could not load weather");
@@ -28,19 +31,32 @@ export const useGetWeather = () => {
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
-      console.log(status, "our status");
+
       if (status !== "granted") {
         setErrorMsg("Permission denied");
         return;
       }
 
-      let location = await Location.getCurrentPositionAsync({});
-      setLat(location.coords.latitude);
-      setLon(location.coords.longitude);
+      console.log(location, errorMsg)
 
-      await fetchWeatherData();
+      try {
+        let location = await Location.getCurrentPositionAsync({});
+
+        // setLocation(location)
+
+        // console.log(location, "location");
+        setLat(location.coords.latitude);
+        setLon(location.coords.longitude);
+
+        await fetchWeatherData();
+      } catch (error) {
+        console.log(error, "our status");
+        setErrorMsg('error')
+      }
     })();
-  }, [lat, lon]);
+  }, []);
+
+  console.log(location, errorMsg)
 
   return [loading, errorMsg, weatherData];
 };

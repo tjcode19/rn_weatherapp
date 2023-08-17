@@ -1,7 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import {
   View,
-  Text,
   SafeAreaView,
   FlatList,
   StyleSheet,
@@ -9,30 +8,8 @@ import {
 } from "react-native";
 import ListItem from "../components/ListItems";
 
-const DATA = [
-  {
-    dt_txt: "2023-02-18 12:00:00",
-    main: { temp_max: 8.55, temp_min: 7.55 },
-    weather: [{ main: "clear" }],
-  },
-  {
-    dt_txt: "2023-02-19 12:00:00",
-    main: { temp_max: 8.55, temp_min: 7.55 },
-    weather: [{ main: "clouds" }],
-  },
-  {
-    dt_txt: "2023-02-20 12:00:00",
-    main: { temp_max: 8.55, temp_min: 7.55 },
-    weather: [{ main: "rain" }],
-  },
-  {
-    dt_txt: "2023-02-21 12:00:00",
-    main: { temp_max: 8.55, temp_min: 7.55 },
-    weather: [{ main: "sunny" }],
-  },
-];
-
-export default function UpcomingWeather() {
+export default function UpcomingWeather({ weatherD }) {
+  console.log(weatherD);
   const renderItem = ({ item }) => {
     return (
       <ListItem
@@ -51,10 +28,8 @@ export default function UpcomingWeather() {
         style={styles.image}
       >
         <View>
-          <Text>Upcoming Weather</Text>
-
           <FlatList
-            data={DATA}
+            data={weatherD}
             renderItem={renderItem}
             keyExtractor={(item) => item.dt_txt}
           ></FlatList>
