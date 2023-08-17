@@ -8,25 +8,35 @@ import {
 } from "react-native";
 
 import { Feather } from "@expo/vector-icons";
+import moment from "moment";
 
-export default function City() {
+export default function City({ weatherData }) {
+  const { name, country, population, sunrise, sunset } = weatherData;
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
         source={require("../../assets/city.jpg")}
         style={styles.imageLayout}
       >
-        <Text style={[styles.cityName, styles.cittText]}> Lagos</Text>
-        <Text style={[styles.countryName, styles.cittText]}> Nigeria</Text>
+        <Text style={[styles.cityName, styles.cittText]}> {name}</Text>
+        <Text style={[styles.countryName, styles.cittText]}> {country}</Text>
         <View style={styles.populatioWrapper}>
           <Feather name="user" size={50} color="red" />
-          <Text style={styles.populatioText}>30,000,000</Text>
+          <Text style={styles.populatioText}>{population}</Text>
         </View>
         <View style={styles.riseSetWrapper}>
-          <Feather name="sunrise" size={50} color="white" />
-          <Text style={styles.riseSetText}>10:46:54am</Text>
-          <Feather name="sunset" size={50} color="white" />
-          <Text style={styles.riseSetText}>17:54:23pm</Text>
+          <View style={styles.riseSetWrapperInner}>
+            <Feather name="sunrise" size={50} color="white" />
+            <Text style={styles.riseSetText}>
+              {moment(sunrise).format("h:mm:ss a")}
+            </Text>
+          </View>
+          <View style={styles.riseSetWrapperInner}>
+            <Feather name="sunset" size={50} color="white" />
+            <Text style={styles.riseSetText}>
+              {moment(sunset).format("h:mm:ss a")}
+            </Text>
+          </View>
         </View>
       </ImageBackground>
     </SafeAreaView>
@@ -70,6 +80,10 @@ const styles = StyleSheet.create({
     marginTop: 30,
     alignItems: "center",
     justifyContent: "space-around",
+  },
+  riseSetWrapperInner: {
+    alignItems: "center",
+    justifyContent: "center",
   },
   riseSetText: {
     fontWeight: "bold",

@@ -7,6 +7,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import CurrentWeather from "./src/screens/CurrentWeather";
 import { Feather } from "@expo/vector-icons";
 import { useGetWeather } from "./src/hooks/useGetWeather";
+import ErrorItem from "./src/components/ErrorItem";
 
 const Tab = createBottomTabNavigator();
 
@@ -14,8 +15,6 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
   const [loading, errorMsg, weatherData] = useGetWeather();
-
-  console.log(loading, errorMsg, weatherData);
 
   if (weatherData && weatherData.list) {
     return (
@@ -67,7 +66,6 @@ export default function App() {
           </Tab.Screen>
           <Tab.Screen
             name={"City"}
-            component={City}
             options={{
               tabBarIcon: ({ focused }) => (
                 <Feather
@@ -77,7 +75,9 @@ export default function App() {
                 />
               ),
             }}
-          />
+          >
+            {() => <City weatherData={weatherData.city} />}
+          </Tab.Screen>
         </Tab.Navigator>
       </NavigationContainer>
     );
@@ -85,7 +85,11 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <ActivityIndicator size={"large"} color={"blue"} />
+      {loading ? (
+        <ActivityIndicator size={"large"} color={"blue"} />
+      ) : (
+        <ErrorItem />
+      )}
     </View>
   );
 }

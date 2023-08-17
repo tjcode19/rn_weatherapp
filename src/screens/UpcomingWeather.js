@@ -9,7 +9,6 @@ import {
 import ListItem from "../components/ListItems";
 
 export default function UpcomingWeather({ weatherD }) {
-  console.log(weatherD);
   const renderItem = ({ item }) => {
     return (
       <ListItem

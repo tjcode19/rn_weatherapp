@@ -27,14 +27,16 @@ export default function CurrentWeather({ weatherData }) {
         <Text style={[styles.temp, styles.textStyle]}>{temp}</Text>
         <Text
           style={[styles.feels, styles.textStyle]}
-        >{`Feels like ${feels_like}`}</Text>
+        >{`Feels like ${feels_like}°`}</Text>
         <View style={styles.highLowWrapper}>
           <Text style={[styles.highLow, styles.textStyle]}>
-            High: {temp_max}{" "}
+            High: {temp_max}
+            {"°"}
           </Text>
           <Text style={[styles.highLow, styles.textStyle]}>
             {" "}
             Low: {temp_min}
+            {"°"}
           </Text>
         </View>
       </View>
