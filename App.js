@@ -16,7 +16,7 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   const [loading, errorMsg, weatherData] = useGetWeather();
 
-  if (weatherData && weatherData.list) {
+  if (weatherData && weatherData.list && !loading) {
     return (
       <NavigationContainer>
         <Tab.Navigator
@@ -85,10 +85,10 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      {loading ? (
-        <ActivityIndicator size={"large"} color={"blue"} />
-      ) : (
+      {errorMsg ? (
         <ErrorItem />
+      ) : (
+        <ActivityIndicator size={"large"} color={"blue"} />
       )}
     </View>
   );

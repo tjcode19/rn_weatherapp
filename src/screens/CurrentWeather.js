@@ -24,7 +24,7 @@ export default function CurrentWeather({ weatherData }) {
           size={100}
           color="white"
         />
-        <Text style={[styles.temp, styles.textStyle]}>{temp}</Text>
+        <Text style={[styles.temp, styles.textStyle]}>{temp}{"°"}</Text>
         <Text
           style={[styles.feels, styles.textStyle]}
         >{`Feels like ${feels_like}°`}</Text>
@@ -56,7 +56,6 @@ export default function CurrentWeather({ weatherData }) {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: "pink",
   },
   container: {
     flex: 1,
@@ -85,9 +84,9 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   description: {
-    fontSize: 48,
+    fontSize: 43,
   },
   message: {
-    fontSize: 30,
+    fontSize: 25,
   },
 });
